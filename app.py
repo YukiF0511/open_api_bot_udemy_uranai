@@ -3,7 +3,8 @@ import streamlit as st
 import openai
 import secret_keys  # 外部ファイルにAPI keyを保存
 
-openai.api_key = secret_keys.openai_api_key
+# Streamlit Community Cloudの「Secrets」からOpenAI API keyを取得
+openai.api_key = st.secrets.OpenAIAPI.openai_api_key
 
 system_prompt = """
 このスレッドの全ての質問に対して以下のルールに厳格に従って答えてください。
@@ -15,7 +16,7 @@ system_prompt = """
 # st.session_stateを使いメッセージのやりとりを保存
 if "messages" not in st.session_state:
     st.session_state["messages"] = [
-        {"role": "system", "content": system_prompt}
+        {"role": "system", "content": st.secrets.AppSettings.chatbot_setting}
         ]
 
 # チャットボットとやりとりする関数
